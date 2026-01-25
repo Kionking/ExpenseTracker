@@ -11,8 +11,8 @@ namespace ExpenseTracker.Data
         {
         }
 
-        public DbSet<ExpenseEntity> TestEntities => Set<ExpenseEntity>();
-        public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
-        public DbSet<UserEntity> Users => Set<UserEntity>();
+        public DbSet<Expense> Expenses => Set<Expense>();
+        public DbSet<Category> Categories => Set<Category>();
+        public DbSet<User> Users => Set<User>();
     }
 }

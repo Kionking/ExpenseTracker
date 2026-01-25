@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ExpenseTracker.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260122201209_AddExpenseCategoryUser")]
-    partial class AddExpenseCategoryUser
+    [Migration("20260124212221_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace ExpenseTracker.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ExpenseTracker.Models.CategoryEntity", b =>
+            modelBuilder.Entity("ExpenseTracker.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,10 +38,10 @@ namespace ExpenseTracker.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategoryEntity");
+                    b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Models.ExpenseEntity", b =>
+            modelBuilder.Entity("ExpenseTracker.Models.Expense", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,10 +67,10 @@ namespace ExpenseTracker.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TestEntities");
+                    b.ToTable("Expenses");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Models.UserEntity", b =>
+            modelBuilder.Entity("ExpenseTracker.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,19 +84,19 @@ namespace ExpenseTracker.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserEntity");
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Models.ExpenseEntity", b =>
+            modelBuilder.Entity("ExpenseTracker.Models.Expense", b =>
                 {
-                    b.HasOne("ExpenseTracker.Models.CategoryEntity", "Category")
-                        .WithMany()
+                    b.HasOne("ExpenseTracker.Models.Category", "Category")
+                        .WithMany("Expenses")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ExpenseTracker.Models.UserEntity", "User")
-                        .WithMany()
+                    b.HasOne("ExpenseTracker.Models.User", "User")
+                        .WithMany("Expenses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -104,6 +104,16 @@ namespace ExpenseTracker.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ExpenseTracker.Models.Category", b =>
+                {
+                    b.Navigation("Expenses");
+                });
+
+            modelBuilder.Entity("ExpenseTracker.Models.User", b =>
+                {
+                    b.Navigation("Expenses");
                 });
 #pragma warning restore 612, 618
         }
