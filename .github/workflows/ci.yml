@@ -25,8 +25,7 @@ jobs:
 
     env:
       ASPNETCORE_ENVIRONMENT: Development
-      DB_NAME: expensetracker_test_${{ github.run_id }}
-      ConnectionStrings__Default: "Host=localhost;Port=5432;Database=${{ env.DB_NAME }};Username=postgres;Password=postgres"
+      ConnectionStrings__Default: "Host=localhost;Port=5432;Database=expensetracker_test_${{ github.run_id }};Username=postgres;Password=postgres"
 
     steps:
       - name: Checkout
