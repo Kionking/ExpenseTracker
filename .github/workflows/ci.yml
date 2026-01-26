@@ -8,24 +8,25 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: expensetracker_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U postgres -d expensetracker_test"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
+services:
+  postgres:
+    image: postgres:16
     env:
-      ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__Default: Host=localhost;Port=5432;Database=expensetracker_test;Username=postgres;Password=postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${{ env.DB_NAME }}
+    ports:
+      - 5432:5432
+    options: >-
+      --health-cmd="pg_isready -U postgres -d ${{ env.DB_NAME }}"
+      --health-interval=10s
+      --health-timeout=5s
+      --health-retries=10
+
+  env:
+    ASPNETCORE_ENVIRONMENT: Development
+    DB_NAME: expensetracker_test_${{ github.run_id }}
+    ConnectionStrings__Default: "Host=localhost;Port=5432;Database=${{ env.DB_NAME }};Username=postgres;Password=postgres"
 
     steps:
       - name: Checkout
