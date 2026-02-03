@@ -1,10 +1,12 @@
 ﻿using ExpenseTracker.Data;
 using ExpenseTracker.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -36,7 +38,7 @@ namespace ExpenseTracker.Controllers
         }
 
         [HttpGet("GetUserById")]
-        public async Task<IActionResult> GetUsersById(int id)
+        public async Task<IActionResult> GetUsersById(string id)
         {
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
             if (user is null)

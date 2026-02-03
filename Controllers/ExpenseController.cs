@@ -1,10 +1,12 @@
 ﻿using ExpenseTracker.Data;
 using ExpenseTracker.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ExpenseController : ControllerBase
@@ -58,8 +60,29 @@ namespace ExpenseTracker.Controllers
             return Ok(expense);
         }
 
-        //:TODO: Implement GET by UserId and CategoryId
+        [HttpGet("GetAllExpensesByUserId")]
+        public async Task<IActionResult> GetExpensesByUserId(int userId)
+        {
+            var expenses = await _db.Expenses.Where(e => e.UserId == userId).ToListAsync();
+            if (expenses.Count <= 0)
+                return NotFound();
+            return Ok(expenses);
+        }
+
+        [HttpGet("GetAllExpensesByDateRange")]
+        public async Task<IActionResult> GetExpensesByDateRange(DateOnly startDate, DateOnly endDate)
+        {
+            var expenses = await _db.Expenses
+                .Where(e => e.Date >= startDate && e.Date <= endDate)
+                .ToListAsync();
+
+            if (expenses.Count <= 0)
+                return NotFound();
+
+            return Ok(expenses);
+        }
+
+        //:TODO: Implement GET by CategoryId
         //:TODO: Implement GET by Sum of Expenses
-        //:TODO: Implement GET by Date Range
     }
 }

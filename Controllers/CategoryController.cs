@@ -1,10 +1,12 @@
 ﻿using ExpenseTracker.Data;
 using ExpenseTracker.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class CategoryController : ControllerBase

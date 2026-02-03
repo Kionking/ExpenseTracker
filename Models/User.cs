@@ -1,13 +1,11 @@
 ﻿using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ExpenseTracker.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
-        public required string Name { get; set; }
-
-        [JsonIgnore]
-        public ICollection<Expense> Expenses { get; set; } = [];
+        //[JsonIgnore]
+        //public ICollection<Expense> Expenses { get; set; } = [];
     }
 }
